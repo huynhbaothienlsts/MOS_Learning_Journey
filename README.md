@@ -9,6 +9,9 @@ index.html
 .nojekyll
 README.md
 
+assets/
+  author-huynh-bao-thien.jpg  # Ảnh dùng trong trang thông tin tác giả
+
 css/
   styles.css
 
@@ -54,6 +57,7 @@ Mọi đường dẫn trong website đều là đường dẫn tương đối, n
 - Mission dùng ngân hàng thử thách riêng, không còn lấy lại câu Practice số 3.
 - Không có câu hỏi trùng nguyên văn giữa Explore, Practice và Mission.
 - Khi cập nhật từ V3, website giữ XP, badge, chapter, quiz và certificate; riêng Explore/Practice được làm mới để học sinh trải nghiệm nội dung V4.
+- Hộp thông tin tác giả có ảnh chân dung được tối ưu cho GitHub Pages và Canvas.
 
 ## Nhúng vào Canvas LMS
 

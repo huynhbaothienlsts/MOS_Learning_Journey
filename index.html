@@ -107,7 +107,28 @@
 
   <footer><span>Learn • Practice • Challenge • Get Certified</span><button class="author-button" id="author-button" type="button">Tác giả: Huỳnh Bảo Thiên</button></footer>
 
-  <dialog id="author-dialog"><button class="dialog-close" aria-label="Đóng" type="button">×</button><div class="dialog-icon">✦</div><h2>Về tác giả</h2><p><strong>Huỳnh Bảo Thiên</strong></p><p>Trường THCS và THPT Đinh Thiện Lý</p><p class="muted">Thiết kế với mong muốn biến việc học MOS thành một hành trình đáng nhớ.</p></dialog>
+  <dialog id="author-dialog" class="author-dialog">
+    <button class="dialog-close" aria-label="Đóng thông tin tác giả" type="button">×</button>
+    <div class="author-profile">
+      <div class="author-photo-wrap">
+        <img
+          class="author-photo"
+          src="./assets/author-huynh-bao-thien.jpg"
+          alt="Chân dung thầy Huỳnh Bảo Thiên"
+          width="1000"
+          height="1500"
+          loading="lazy"
+          decoding="async">
+      </div>
+      <div class="author-copy">
+        <p class="eyebrow">NGƯỜI THIẾT KẾ HÀNH TRÌNH</p>
+        <h2>Về tác giả</h2>
+        <p class="author-name">Huỳnh Bảo Thiên</p>
+        <p class="author-school">Trường THCS và THPT Đinh Thiện Lý</p>
+        <p class="author-message">Thiết kế với mong muốn biến việc học MOS thành một hành trình đáng nhớ.</p>
+      </div>
+    </div>
+  </dialog>
   <dialog id="certificate-dialog" class="certificate-dialog"></dialog>
   <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="true"></div>
   <div id="confetti" aria-hidden="true"></div>
