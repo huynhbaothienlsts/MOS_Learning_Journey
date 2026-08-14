@@ -1,0 +1,115 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="description" content="Hành trình tự học MOS 365 tương tác: học, luyện tập, chinh phục thử thách và nhận huy hiệu.">
+  <meta name="theme-color" content="#17103a">
+  <title>MOS Learning Journey</title>
+  <link rel="stylesheet" href="./css/styles.css">
+  <script src="./js/config.js" defer></script>
+  <script src="./data/courses.js" defer></script>
+  <script src="./data/badges.js" defer></script>
+  <script src="./data/questions.js" defer></script>
+  <script src="./js/storage.js" defer></script>
+  <script src="./js/utils.js" defer></script>
+  <script src="./js/quiz-engine.js" defer></script>
+  <script src="./js/certificate.js" defer></script>
+  <script src="./js/canvas-mode.js" defer></script>
+  <script src="./js/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#main">Bỏ qua đến nội dung</a>
+  <header class="topbar">
+    <a class="brand" href="#home" aria-label="MOS Learning Journey - Trang chủ">
+      <span class="brand-mark" aria-hidden="true">M</span>
+      <span><strong>MOS</strong><small>Learning Journey</small></span>
+    </a>
+    <button class="menu-toggle" aria-expanded="false" aria-controls="main-nav"><span aria-hidden="true">☰</span><span class="sr-only">Mở menu</span></button>
+    <nav id="main-nav" aria-label="Điều hướng chính">
+      <a href="#home" data-nav="home">Khám phá</a>
+      <a href="#journey" data-nav="journey">Hành trình</a>
+      <a href="#achievements" data-nav="achievements">Thành tựu</a>
+      <button class="icon-button" id="sound-toggle" type="button" aria-label="Bật hoặc tắt âm thanh">♪</button>
+    </nav>
+  </header>
+
+  <aside class="player-bar" aria-label="Bảng tiến độ học tập">
+    <div class="level-chip"><span id="level-number">LV 1</span><strong id="level-name">Office Rookie</strong></div>
+    <div class="xp-meter"><div class="meter-label"><span>XP</span><strong id="xp-label">0 / 400</strong></div><div class="meter-track"><span id="xp-bar"></span></div></div>
+    <div class="stat"><strong id="badge-count">0</strong><span>Huy hiệu</span></div>
+    <div class="stat"><strong id="overall-progress">0%</strong><span>Tiến độ</span></div>
+  </aside>
+
+  <div id="storage-notice" class="storage-notice" role="status" hidden>
+    <strong>Không thể lưu lâu dài trên trình duyệt này.</strong>
+    <span>Website vẫn hoạt động, nhưng tiến độ có thể mất khi đóng trang. Hãy thử mở toàn màn hình.</span>
+  </div>
+  <a id="open-fullsite" class="iframe-exit" href="./" target="_blank" rel="noopener" hidden>
+    Mở toàn màn hình <span aria-hidden="true">↗</span>
+  </a>
+
+  <main id="main" tabindex="-1">
+    <section id="home-view" class="view active" aria-labelledby="hero-title">
+      <div class="hero" id="home">
+        <div class="hero-copy">
+          <p class="eyebrow">LEARN • PRACTICE • CHALLENGE • GET CERTIFIED</p>
+          <h1 id="hero-title">Master Office.<br><span>Unlock your potential.</span></h1>
+          <p class="hero-lead">Biến kiến thức MOS 365 thành một hành trình chinh phục: học từng kỹ năng, hoàn thành mission và mở khóa huy hiệu.</p>
+          <div class="hero-actions">
+            <button class="button primary" id="start-button" type="button">Bắt đầu hành trình <span aria-hidden="true">→</span></button>
+            <button class="button ghost" type="button" data-action="show-map">Xem learning map</button>
+          </div>
+          <div class="trust-row" aria-label="Điểm nổi bật"><span>✓ Theo chuẩn kỹ năng MO-110/210/310</span><span>✓ Lưu tiến độ trên thiết bị</span></div>
+        </div>
+        <div class="hero-visual" aria-label="Minh họa ba ứng dụng Office">
+          <div class="orbit orbit-one"></div><div class="orbit orbit-two"></div>
+          <button class="app-tile ppt" data-course="powerpoint" aria-label="Mở PowerPoint 365"><b>P</b><span>PowerPoint</span></button>
+          <button class="app-tile word" data-course="word" aria-label="Mở Word 365"><b>W</b><span>Word</span></button>
+          <button class="app-tile excel" data-course="excel" aria-label="Mở Excel 365"><b>X</b><span>Excel</span></button>
+          <div class="master-core"><span>🏆</span><strong>MOS</strong><small>MASTER</small></div>
+          <span class="xp-float">+100 XP</span><span class="badge-float">BADGE UNLOCKED</span>
+        </div>
+      </div>
+
+      <section class="intro-band" aria-labelledby="what-mos">
+        <div><p class="eyebrow">MISSION BRIEF</p><h2 id="what-mos">MOS là gì?</h2><p>Microsoft Office Specialist đánh giá khả năng thực hiện các tác vụ thực tế trong ứng dụng Office. Chứng chỉ giúp bạn chứng minh kỹ năng số phục vụ học tập và công việc.</p></div>
+        <div class="fact-grid">
+          <article><span>01</span><strong>Thực hành thật</strong><p>Hoàn thành task trong chính ứng dụng Office.</p></article>
+          <article><span>02</span><strong>Kỹ năng toàn cầu</strong><p>Một chuẩn năng lực được công nhận rộng rãi.</p></article>
+          <article><span>03</span><strong>Sẵn sàng tương lai</strong><p>Tự tin tạo tài liệu, dữ liệu và bài thuyết trình.</p></article>
+        </div>
+      </section>
+
+      <section class="journey-section" id="journey" aria-labelledby="journey-title">
+        <div class="section-heading"><div><p class="eyebrow">YOUR JOURNEY</p><h2 id="journey-title">Chọn thế giới của bạn</h2></div><p>Ba lộ trình độc lập. Bạn có thể bắt đầu với môn phù hợp nhất.</p></div>
+        <div class="world-grid" id="world-grid"></div>
+      </section>
+
+      <section class="map-section" id="learning-map" aria-labelledby="map-title">
+        <div class="section-heading"><div><p class="eyebrow">LEARNING MAP</p><h2 id="map-title">Bản đồ chinh phục</h2></div><p>Mỗi checkpoint đưa bạn đến gần MOS Ready hơn.</p></div>
+        <div id="map-content" class="learning-map"></div>
+      </section>
+    </section>
+
+    <section id="course-view" class="view course-view" aria-live="polite"></section>
+    <section id="quiz-view" class="view quiz-view" aria-live="polite"></section>
+
+    <section id="achievements-view" class="view achievements-view" aria-labelledby="achievement-title">
+      <div class="page-hero"><button class="back-link" data-action="home" type="button">← Trang chủ</button><p class="eyebrow">YOUR TROPHY ROOM</p><h1 id="achievement-title">Thành tựu của bạn</h1><p>Mỗi huy hiệu là một cột mốc kỹ năng đã thực sự chinh phục.</p></div>
+      <div class="achievement-summary" id="achievement-summary"></div>
+      <div class="badge-gallery" id="badge-gallery"></div>
+      <div class="certificate-gallery" id="certificate-gallery"></div>
+      <div class="danger-zone"><div><strong>Bắt đầu lại từ đầu</strong><p>Xóa XP, bài học, quiz, huy hiệu và chứng nhận trên thiết bị này.</p></div><button class="button danger" id="reset-progress" type="button">Reset Progress</button></div>
+    </section>
+  </main>
+
+  <footer><span>Learn • Practice • Challenge • Get Certified</span><button class="author-button" id="author-button" type="button">Tác giả: Huỳnh Bảo Thiên</button></footer>
+
+  <dialog id="author-dialog"><button class="dialog-close" aria-label="Đóng" type="button">×</button><div class="dialog-icon">✦</div><h2>Về tác giả</h2><p><strong>Huỳnh Bảo Thiên</strong></p><p>Trường THCS và THPT Đinh Thiện Lý</p><p class="muted">Thiết kế với mong muốn biến việc học MOS thành một hành trình đáng nhớ.</p></dialog>
+  <dialog id="certificate-dialog" class="certificate-dialog"></dialog>
+  <div id="toast-region" class="toast-region" aria-live="polite" aria-atomic="true"></div>
+  <div id="confetti" aria-hidden="true"></div>
+  <noscript>Website cần JavaScript để lưu tiến độ và vận hành các hoạt động tương tác.</noscript>
+</body>
+</html>
