@@ -1,6 +1,7 @@
 /* Điều phối giao diện. Dữ liệu và logic độc lập nằm trong data/ và các file js/ khác. */
 const {
   CONFIG, LEVELS, COURSES, BADGES,
+  EXPLORE_ACTIVITIES, MISSION_CHALLENGES,
   CHAPTER_QUESTIONS, FINAL_QUESTIONS, MASTER_QUESTIONS,
   Storage, Utils, QuizEngine, Certificate, CanvasMode
 } = window.MOS;
@@ -10,6 +11,15 @@ let activeCourse = null;
 let activeChapterIndex = 0;
 let quizSession = null;
 let storageWarningShown = false;
+
+// Khi nội dung hoạt động được nâng cấp, yêu cầu học lại Explore/Practice mới
+// nhưng vẫn giữ XP, badge, chapter, quiz và certificate đã đạt.
+if (state.contentVersion !== CONFIG.contentVersion) {
+  state.explores = {};
+  state.practice = {};
+  state.contentVersion = CONFIG.contentVersion;
+  Storage.persistState(CONFIG.storageKey, state);
+}
 
 function saveState() {
   const persisted = Storage.persistState(CONFIG.storageKey, state);
@@ -190,23 +200,34 @@ function renderLessons(chapter) {
 }
 
 function renderExplore(chapter) {
-  const item = CHAPTER_QUESTIONS[chapter.id][0];
+  const item = EXPLORE_ACTIVITIES[chapter.id];
   const complete = state.explores[chapter.id];
-  return `<div class="activity-card"><p class="eyebrow">CLICK TO REVEAL</p><h3>Explore Activity</h3><p class="scenario">${item.prompt}</p><div class="answers">${item.options.map((option, index) => `<button class="answer" data-explore="${index}" ${complete ? "disabled" : ""}>${String.fromCharCode(65 + index)}. ${option}</button>`).join("")}</div>${complete ? `<p class="feedback">✓ ${item.explain}</p>` : ""}</div>`;
+  return `<div class="activity-card explore-lab">
+    <div class="activity-heading"><div><p class="eyebrow">DECISION LAB · KHÁM PHÁ</p><h3>${item.title}</h3></div><span class="activity-tag">1 tình huống</span></div>
+    <p class="explore-brief">${item.brief}</p>
+    <p class="scenario"><strong>Nhiệm vụ:</strong> ${item.prompt}</p>
+    <div class="answers">${item.options.map((option, index) => `<button class="answer" data-explore="${index}" ${complete ? "disabled" : ""}>${String.fromCharCode(65 + index)}. ${option}</button>`).join("")}</div>
+    <p class="feedback explore-feedback ${complete ? "success" : ""}" ${complete ? "" : "hidden"} aria-live="polite">${complete ? `✓ Chính xác! ${item.explain}` : ""}</p>
+    ${complete ? "" : `<details class="hint"><summary>Cần gợi ý?</summary><p>${item.hint}</p></details>`}
+  </div>`;
 }
 
 function renderPractice(chapter) {
   const answers = state.practice[chapter.id] || {};
-  return `<div class="practice-stack">${CHAPTER_QUESTIONS[chapter.id].map((item, questionIndex) => `<article class="practice-item"><p>${questionIndex + 1}. ${item.prompt}</p><div class="answers">${item.options.map((option, answerIndex) => `<button class="answer ${answers[questionIndex] === answerIndex ? "correct" : ""}" data-practice-q="${questionIndex}" data-practice-a="${answerIndex}" ${answers[questionIndex] !== undefined ? "disabled" : ""}>${option}</button>`).join("")}</div>${answers[questionIndex] !== undefined ? `<div class="feedback">✓ Chính xác! ${item.explain}</div>` : ""}</article>`).join("")}</div>`;
+  const questions = CHAPTER_QUESTIONS[chapter.id];
+  const skillLabels = ["ÁP DỤNG", "PHÂN TÍCH", "QUY TRÌNH"];
+  const completed = Object.keys(answers).length;
+  return `<div class="practice-intro"><div><p class="eyebrow">QUICK CHECK · LUYỆN TẬP</p><h3>3 tình huống độc lập</h3><p>Chọn cách xử lý phù hợp trong Word, PowerPoint hoặc Excel — không lặp lại câu Explore.</p></div><strong>${completed}/${questions.length}</strong></div>
+  <div class="practice-stack">${questions.map((item, questionIndex) => `<article class="practice-item"><div class="question-meta"><span>CHECK ${questionIndex + 1}</span><span>${skillLabels[questionIndex] || "VẬN DỤNG"}</span></div><p><strong>${item.prompt}</strong></p><div class="answers">${item.options.map((option, answerIndex) => `<button class="answer ${answers[questionIndex] === answerIndex ? "correct" : ""}" data-practice-q="${questionIndex}" data-practice-a="${answerIndex}" ${answers[questionIndex] !== undefined ? "disabled" : ""}>${String.fromCharCode(65 + answerIndex)}. ${option}</button>`).join("")}</div>${answers[questionIndex] !== undefined ? `<div class="feedback success">✓ Chính xác! ${item.explain}</div>` : `<div class="feedback practice-feedback" hidden aria-live="polite"></div>`}</article>`).join("")}</div>`;
 }
 
 function renderMission(chapter) {
   const ready = chapter.lessons.every((_, index) => state.lessons[`${chapter.id}-${index}`])
     && state.explores[chapter.id]
     && Object.keys(state.practice[chapter.id] || {}).length === CHAPTER_QUESTIONS[chapter.id].length;
-  const item = CHAPTER_QUESTIONS[chapter.id][2];
+  const item = MISSION_CHALLENGES[chapter.id];
   const done = state.chapters[chapter.id];
-  return `<div class="mission-card"><p class="eyebrow">CHAPTER MISSION</p><span class="mission-reward">+${CONFIG.xpPerChapter} XP</span><h3>Final checkpoint</h3>${ready || done ? `<p class="scenario">${item.prompt}</p><div class="answers">${item.options.map((option, index) => `<button class="answer" data-mission="${index}" ${done ? "disabled" : ""}>${option}</button>`).join("")}</div>${done ? "<p class=\"feedback\">✓ Mission complete. Stage đã chinh phục!</p>" : ""}` : `<p class="scenario">Hoàn tất LEARN, EXPLORE và cả 3 câu PRACTICE để mở khóa Mission.</p>`}</div>`;
+  return `<div class="mission-card"><p class="eyebrow">CHAPTER MISSION</p><span class="mission-reward">+${CONFIG.xpPerChapter} XP</span><h3>${item.title}</h3><p class="mission-brief">${chapter.mission}</p>${ready || done ? `<p class="scenario"><strong>Final checkpoint:</strong> ${item.prompt}</p><div class="answers">${item.options.map((option, index) => `<button class="answer" data-mission="${index}" ${done ? "disabled" : ""}>${String.fromCharCode(65 + index)}. ${option}</button>`).join("")}</div>${done ? `<p class="feedback success">✓ Mission complete. ${item.explain}</p>` : ""}` : `<p class="scenario">Hoàn tất LEARN, EXPLORE và cả ${CHAPTER_QUESTIONS[chapter.id].length} câu PRACTICE để mở khóa Mission.</p>`}</div>`;
 }
 
 function showCycle(name) {
@@ -222,7 +243,7 @@ function handleLesson(key) {
 
 function handleExplore(answer, button) {
   const chapter = COURSES[activeCourse].chapters[activeChapterIndex];
-  const item = CHAPTER_QUESTIONS[chapter.id][0];
+  const item = EXPLORE_ACTIVITIES[chapter.id];
   if (answer === item.answer) {
     state.explores[chapter.id] = true;
     button.classList.add("correct");
@@ -230,7 +251,11 @@ function handleExplore(answer, button) {
     setTimeout(() => { renderCourse(); showCycle("explore"); }, 450);
   } else {
     button.classList.add("wrong");
-    toast("Chưa đúng — thử một lựa chọn khác.");
+    const feedback = button.closest(".activity-card").querySelector(".explore-feedback");
+    feedback.hidden = false;
+    feedback.classList.remove("success");
+    feedback.textContent = `✗ Chưa đúng. ${item.hint}`;
+    toast("Chưa đúng — đọc gợi ý và thử một lựa chọn khác.");
     setTimeout(() => button.classList.remove("wrong"), 550);
   }
 }
@@ -240,6 +265,11 @@ function handlePractice(questionIndex, answer, button) {
   const item = CHAPTER_QUESTIONS[chapter.id][questionIndex];
   if (answer !== item.answer) {
     button.classList.add("wrong");
+    const feedback = button.closest(".practice-item").querySelector(".practice-feedback");
+    if (feedback) {
+      feedback.hidden = false;
+      feedback.textContent = `✗ Chưa đúng. ${item.explain}`;
+    }
     toast(`Chưa đúng. ${item.explain}`);
     setTimeout(() => button.classList.remove("wrong"), 700);
     return;
@@ -254,7 +284,7 @@ function handlePractice(questionIndex, answer, button) {
 
 function handleMission(answer, button) {
   const chapter = COURSES[activeCourse].chapters[activeChapterIndex];
-  const item = CHAPTER_QUESTIONS[chapter.id][2];
+  const item = MISSION_CHALLENGES[chapter.id];
   if (answer !== item.answer) {
     button.classList.add("wrong");
     toast("Mission chưa hoàn tất — đọc gợi ý và thử lại.");

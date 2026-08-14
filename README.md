@@ -1,6 +1,6 @@
-# MOS Learning Journey V3
+# MOS Learning Journey V4
 
-Website tự học MOS 365 tương tác dành cho học sinh THCS/THPT. Phiên bản V3 sử dụng cấu trúc thư mục rõ ràng để giáo viên dễ sửa nội dung và mở rộng chức năng.
+Website tự học MOS 365 tương tác dành cho học sinh THCS/THPT. Phiên bản V4 tách hoàn toàn nội dung **Explore**, **Practice** và **Mission** cho cả 16 chapter, đồng thời giữ cấu trúc thư mục rõ ràng để giáo viên dễ sửa nội dung.
 
 ## Cấu trúc
 
@@ -14,7 +14,8 @@ css/
 
 data/
   courses.js       # Nội dung 16 chapter
-  questions.js     # Câu hỏi chapter, final và master
+  activities.js    # Tình huống Explore và Mission riêng biệt
+  questions.js     # Practice, Final Challenge và Master Challenge
   badges.js        # Danh sách huy hiệu
 
 js/
@@ -41,9 +42,18 @@ Mọi đường dẫn trong website đều là đường dẫn tương đối, n
 
 - Đổi điểm PASS hoặc XP trong `js/config.js`.
 - Sửa micro-lesson trong `data/courses.js`.
-- Sửa/thêm câu hỏi trong `data/questions.js`.
+- Sửa tình huống Explore/Mission trong `data/activities.js`.
+- Sửa/thêm câu Practice và Final Challenge trong `data/questions.js`.
 - Sửa điều kiện và tên badge trong `data/badges.js`.
 - Không cần chỉnh `js/app.js` khi chỉ thay nội dung học tập.
+
+## Điểm mới trong V4
+
+- Explore là **Decision Lab** có bối cảnh, nhiệm vụ, gợi ý và phản hồi ngay.
+- Practice gồm 3 quick check độc lập cho mỗi chapter và hiển thị tiến độ hoàn thành.
+- Mission dùng ngân hàng thử thách riêng, không còn lấy lại câu Practice số 3.
+- Không có câu hỏi trùng nguyên văn giữa Explore, Practice và Mission.
+- Khi cập nhật từ V3, website giữ XP, badge, chapter, quiz và certificate; riêng Explore/Practice được làm mới để học sinh trải nghiệm nội dung V4.
 
 ## Nhúng vào Canvas LMS
 

@@ -6,6 +6,7 @@ let storageAvailable = true;
 
 const emptyState = () => ({
   version: 1,
+  contentVersion: 1,
   xp: 0,
   awards: {},
   lessons: {},

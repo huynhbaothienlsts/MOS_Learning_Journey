@@ -13,6 +13,7 @@ window.MOS.CONFIG = {
   xpPerChapter: 100,
   xpPerSubject: 500,
   perfectQuizBonus: 200,
+  contentVersion: 2,
   storageKey: "mos-learning-journey-v1"
 };
 
